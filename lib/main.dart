@@ -44,16 +44,22 @@ class _SearchPageState extends State<SearchPage>{
 
   ];
 
-  List<DataModel> displayList = List.from(movieList);
+  List<DataModel> displayList = [];
   void updateList(String value) {
+    displayList = List.from(movieList);
     setState(() {
       displayList = movieList.where((item) => item.title!.toLowerCase().contains(value.toLowerCase())).toList();
+      if(value.isEmpty) {
+        displayList = [];
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
       backgroundColor: const Color(0xFF1f1545),
       appBar: AppBar(
         backgroundColor: const Color(0xFF1f1545),
@@ -70,7 +76,10 @@ class _SearchPageState extends State<SearchPage>{
           const SizedBox(height: 20.0,
           ),
           TextField(
-            onChanged: (value) => updateList(value),
+            onChanged: (value) => {
+              displayList = [],
+              updateList(value)
+            },
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               filled: true,
